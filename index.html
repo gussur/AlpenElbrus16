@@ -176,27 +176,49 @@
     </footer>
 
     <!-- Script Swiper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-    <script>
-        // Inisialisasi Slider Galeri
-        var swiper = new Swiper(".mySwiper", {
-            loop: true,
-            spaceBetween: 30,
-            centeredSlides: true,
-            autoplay: {
-                delay: 3500,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-        });
-    </script>
+<!-- Script Swiper.js & Integrasi GDrive -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbyrcLXNsF7bPylOwsUWksYfqN0hf-EdrhFtLns7-mcxfaAXT9HhdKRNiE_I13AXa9wa/exec"; 
+    const folderId = "1svGJ83cyjoLULlAh7QiJ3d3ElD9XzEf6";
+
+    // Inisialisasi swiper (dibuat const agar tidak double declaration)
+    const swiper = new Swiper(".mySwiper", {
+        loop: true,
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: { delay: 3500, disableOnInteraction: false },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+        observer: true,
+        observeParents: true,
+    });
+
+    async function loadGDrivePhotos() {
+        try {
+            const response = await fetch(`${scriptUrl}?id=${folderId}`);
+            const result = await response.json();
+
+            if (result.status === "success" && result.data.length > 0) {
+                const wrapper = document.getElementById("slider-wrapper");
+                wrapper.innerHTML = "";
+
+                result.data.forEach(imgUrl => {
+                    const slide = document.createElement("div");
+                    slide.className = "swiper-slide";
+                    slide.innerHTML = `<img src="${imgUrl}" alt="Foto Rumah" loading="lazy" referrerpolicy="no-referrer">`;
+                    wrapper.appendChild(slide);
+                });
+            } else {
+                document.getElementById("slider-wrapper").innerHTML = `<div class="swiper-slide py-16 text-red-500 text-center">Gagal memuat foto: ${result.message || 'Folder kosong'}</div>`;
+            }
+        } catch (error) {
+            console.error("Gagal memuat foto dari GDrive:", error);
+            document.getElementById("slider-wrapper").innerHTML = `<div class="swiper-slide py-16 text-red-500 text-center">Terjadi kesalahan koneksi. Pastikan akses Apps Script diset ke 'Anyone'.</div>`;
+        }
+    }
+
+    loadGDrivePhotos();
+</script>
 </body>
 </html>
