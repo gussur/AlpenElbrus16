@@ -13,6 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
         .swiper-slide img {
             width: 100%;
@@ -104,7 +105,7 @@
         </div>
     </section>
 
-    <!-- Galeri Foto (Slider GDrive) -->
+    <!-- Galeri Foto (Slider GDrive dengan Caption) -->
     <section class="max-w-5xl mx-auto px-4 py-12 border-t border-gray-200">
         <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Foto Rumah</h2>
         
@@ -148,7 +149,7 @@
         <p>&copy; 2026 Hilltop Residence, Sentul City. All rights reserved.</p>
     </footer>
 
-    <!-- Script Swiper.js & Integrasi Drive (Single Script Block) -->
+    <!-- Script Swiper.js & Integrasi Drive -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         const scriptUrl = "https://script.google.com/macros/s/AKfycbyrcLXNsF7bPylOwsUWksYfqN0hf-EdrhFtLns7-mcxfaAXT9HhdKRNiE_I13AXa9wa/exec"; 
@@ -174,10 +175,15 @@
                     const wrapper = document.getElementById("slider-wrapper");
                     wrapper.innerHTML = ""; 
 
-                    result.data.forEach(imgUrl => {
+                    result.data.forEach(item => {
                         const slide = document.createElement("div");
-                        slide.className = "swiper-slide";
-                        slide.innerHTML = `<img src="${imgUrl}" alt="Foto Rumah" loading="lazy" referrerpolicy="no-referrer">`;
+                        slide.className = "swiper-slide relative overflow-hidden rounded-xl";
+                        slide.innerHTML = `
+                            <img src="${item.url}" alt="${item.name}" loading="lazy" referrerpolicy="no-referrer">
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-white text-center rounded-b-xl">
+                                <p class="font-medium text-base md:text-lg">${item.name}</p>
+                            </div>
+                        `;
                         wrapper.appendChild(slide);
                     });
                 } else {
