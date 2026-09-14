@@ -106,41 +106,69 @@
     </section>
 
     <!-- Galeri Foto (Slider) -->
-    <section class="max-w-5xl mx-auto px-4 py-12 border-t border-gray-200">
-        <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Foto Rumah</h2>
-        
-        <!-- Swiper -->
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <!-- Slide 1 -->
-                <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Tampak Depan">
-                </div>
-                <!-- Slide 2 -->
-                <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Ruang Tamu">
-                </div>
-                <!-- Slide 3 -->
-                <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Kamar Tidur">
-                </div>
-                <!-- Slide 4 -->
-                <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Kamar Mandi">
-                </div>
-                <!-- Slide 5 -->
-                <div class="swiper-slide">
-                    <img src="https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Halaman/Area Outdoor">
-                </div>
+<section class="max-w-5xl mx-auto px-4 py-12 border-t border-gray-200">
+    <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Foto Rumah</h2>
+    
+    <div class="swiper mySwiper">
+        <!-- Foto akan otomatis masuk ke sini -->
+        <div class="swiper-wrapper" id="slider-wrapper">
+            <div class="swiper-slide py-16 text-gray-400 text-center">
+                Memuat foto dari Google Drive...
             </div>
-            <!-- Tombol Navigasi Slider -->
-            <div class="swiper-button-next text-gray-800"></div>
-            <div class="swiper-button-prev text-gray-800"></div>
-            <!-- Titik Navigasi Bawah -->
-            <div class="swiper-pagination"></div>
         </div>
-        <p class="text-center text-sm text-gray-500 mt-4">*Geser untuk melihat foto lainnya</p>
-    </section>
+        <div class="swiper-button-next text-gray-800"></div>
+        <div class="swiper-button-prev text-gray-800"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <p class="text-center text-sm text-gray-500 mt-4">*Geser untuk melihat foto lainnya</p>
+</section>
+
+<!-- Script Swiper & Integrasi GDrive -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+    // Ganti dengan URL Web App dari Google Apps Script
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbyrcLXNsF7bPylOwsUWksYfqN0hf-EdrhFtLns7-mcxfaAXT9HhdKRNiE_I13AXa9wa/exec"; 
+
+    // Ganti dengan ID Folder Google Drive kamu
+    const folderId = "1svGJ83cyjoLULlAh7QiJ3d3ElD9XzEf6";
+
+    // Inisialisasi awal Swiper
+    let swiper = new Swiper(".mySwiper", {
+        loop: true,
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: { delay: 3500, disableOnInteraction: false },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+    });
+
+    // Fungsi mengambil foto dari folder GDrive secara otomatis
+    async function loadGDrivePhotos() {
+        try {
+            const response = await fetch(`${scriptUrl}?id=${folderId}`);
+            const result = await response.json();
+
+            if (result.status === "success" && result.data.length > 0) {
+                const wrapper = document.getElementById("slider-wrapper");
+                wrapper.innerHTML = ""; // Bersihkan teks loading
+
+                result.data.forEach(imgUrl => {
+                    const slide = document.createElement("div");
+                    slide.className = "swiper-slide";
+                    slide.innerHTML = `<img src="${imgUrl}" alt="Foto Rumah" loading="lazy">`;
+                    wrapper.appendChild(slide);
+                });
+
+                // Perbarui tampilan slider setelah foto berhasil dimuat
+                swiper.update();
+            }
+        } catch (error) {
+            console.error("Gagal memuat foto dari GDrive:", error);
+        }
+    }
+
+    loadGDrivePhotos();
+</script>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center mt-12">
