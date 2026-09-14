@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disewakan: Rumah Hilltop Residence Sentul City</title>
-    <!-- Integrasi Tailwind CSS untuk Styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Integrasi Swiper CSS untuk Slider -->
+    <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <style>
         .swiper-slide {
@@ -39,8 +39,7 @@
                 Rumah Nyaman & Strategis di <br class="hidden md:block"> Hilltop Residence, Sentul City
             </h1>
             <p class="mt-4 text-lg text-gray-600 flex items-center justify-center gap-2">
-                <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
-                Jalan Alpen Elbrus 16, Babakan Madang, Sentul, Bogor
+                📍 Jalan Alpen Elbrus 16, Babakan Madang, Sentul, Bogor
             </p>
         </div>
     </header>
@@ -105,120 +104,92 @@
         </div>
     </section>
 
-    <!-- Galeri Foto (Slider) -->
-<section class="max-w-5xl mx-auto px-4 py-12 border-t border-gray-200">
-    <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Foto Rumah</h2>
-    
-    <div class="swiper mySwiper">
-        <!-- Foto akan otomatis masuk ke sini -->
-        <div class="swiper-wrapper" id="slider-wrapper">
-            <div class="swiper-slide py-16 text-gray-400 text-center">
-                Memuat foto dari Google Drive...
+    <!-- Galeri Foto (Slider GDrive) -->
+    <section class="max-w-5xl mx-auto px-4 py-12 border-t border-gray-200">
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Foto Rumah</h2>
+        
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper" id="slider-wrapper">
+                <div class="swiper-slide py-16 text-gray-400 text-center">
+                    Memuat foto dari Google Drive...
+                </div>
             </div>
+            <div class="swiper-button-next text-gray-800"></div>
+            <div class="swiper-button-prev text-gray-800"></div>
+            <div class="swiper-pagination"></div>
         </div>
-        <div class="swiper-button-next text-gray-800"></div>
-        <div class="swiper-button-prev text-gray-800"></div>
-        <div class="swiper-pagination"></div>
-    </div>
-    <p class="text-center text-sm text-gray-500 mt-4">*Geser untuk melihat foto lainnya</p>
-</section>
+        <p class="text-center text-sm text-gray-500 mt-4">*Geser untuk melihat foto lainnya</p>
+    </section>
 
-<!-- Script Swiper & Integrasi GDrive -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
-    // Ganti dengan URL Web App dari Google Apps Script
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbyrcLXNsF7bPylOwsUWksYfqN0hf-EdrhFtLns7-mcxfaAXT9HhdKRNiE_I13AXa9wa/exec"; 
-
-    // Ganti dengan ID Folder Google Drive kamu
-    const folderId = "1svGJ83cyjoLULlAh7QiJ3d3ElD9XzEf6";
-
-    // Inisialisasi awal Swiper
-    let swiper = new Swiper(".mySwiper", {
-        loop: true,
-        spaceBetween: 30,
-        centeredSlides: true,
-        autoplay: { delay: 3500, disableOnInteraction: false },
-        pagination: { el: ".swiper-pagination", clickable: true },
-        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-    });
-
-    // Fungsi mengambil foto dari folder GDrive secara otomatis
-    async function loadGDrivePhotos() {
-        try {
-            const response = await fetch(`${scriptUrl}?id=${folderId}`);
-            const result = await response.json();
-
-            if (result.status === "success" && result.data.length > 0) {
-                const wrapper = document.getElementById("slider-wrapper");
-                wrapper.innerHTML = ""; // Bersihkan teks loading
-
-                result.data.forEach(imgUrl => {
-                    const slide = document.createElement("div");
-                    slide.className = "swiper-slide";
-                    slide.innerHTML = `<img src="${imgUrl}" alt="Foto Rumah" loading="lazy">`;
-                    wrapper.appendChild(slide);
-                });
-
-                // Perbarui tampilan slider setelah foto berhasil dimuat
-                swiper.update();
-            }
-        } catch (error) {
-            console.error("Gagal memuat foto dari GDrive:", error);
-        }
-    }
-
-    loadGDrivePhotos();
-</script>
+    <!-- Peta Lokasi (Google Maps Embed) -->
+    <section class="max-w-5xl mx-auto px-4 py-12 border-t border-gray-200">
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Lokasi Properti</h2>
+        <div class="w-full h-96 rounded-2xl overflow-hidden shadow-sm border border-gray-200">
+            <iframe 
+                width="100%" 
+                height="100%" 
+                style="border:0" 
+                loading="lazy" 
+                allowfullscreen 
+                src="https://maps.google.com/maps?q=-6.5737732,106.8551076&hl=id&z=17&output=embed">
+            </iframe>
+        </div>
+        <div class="text-center mt-4">
+            <a href="https://www.google.com/maps/place/Jl.+Alpen+Elbrus,+Citaringgul,+Kec.+Babakan+Madang,+Kabupaten+Bogor,+Jawa+Barat+16810/@-6.5738894,106.8544163,18.75z" 
+               target="_blank" 
+               class="text-blue-600 font-semibold hover:underline inline-flex items-center gap-1">
+                🗺️ Buka Langsung di Aplikasi Google Maps
+            </a>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-400 py-8 text-center mt-12">
         <p>&copy; 2026 Hilltop Residence, Sentul City. All rights reserved.</p>
     </footer>
 
-    <!-- Script Swiper.js -->
-<!-- Script Swiper.js & Integrasi GDrive -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<script>
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbyrcLXNsF7bPylOwsUWksYfqN0hf-EdrhFtLns7-mcxfaAXT9HhdKRNiE_I13AXa9wa/exec"; 
-    const folderId = "1svGJ83cyjoLULlAh7QiJ3d3ElD9XzEf6";
+    <!-- Script Swiper.js & Integrasi Drive (Single Script Block) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbyrcLXNsF7bPylOwsUWksYfqN0hf-EdrhFtLns7-mcxfaAXT9HhdKRNiE_I13AXa9wa/exec"; 
+        const folderId = "1svGJ83cyjoLULlAh7QiJ3d3ElD9XzEf6";
 
-    // Inisialisasi swiper (dibuat const agar tidak double declaration)
-    const swiper = new Swiper(".mySwiper", {
-        loop: true,
-        spaceBetween: 30,
-        centeredSlides: true,
-        autoplay: { delay: 3500, disableOnInteraction: false },
-        pagination: { el: ".swiper-pagination", clickable: true },
-        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-        observer: true,
-        observeParents: true,
-    });
+        const swiper = new Swiper(".mySwiper", {
+            loop: true,
+            spaceBetween: 30,
+            centeredSlides: true,
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            observer: true,
+            observeParents: true,
+        });
 
-    async function loadGDrivePhotos() {
-        try {
-            const response = await fetch(`${scriptUrl}?id=${folderId}`);
-            const result = await response.json();
+        async function loadGDrivePhotos() {
+            try {
+                const response = await fetch(`${scriptUrl}?id=${folderId}`);
+                const result = await response.json();
 
-            if (result.status === "success" && result.data.length > 0) {
-                const wrapper = document.getElementById("slider-wrapper");
-                wrapper.innerHTML = "";
+                if (result.status === "success" && result.data.length > 0) {
+                    const wrapper = document.getElementById("slider-wrapper");
+                    wrapper.innerHTML = ""; 
 
-                result.data.forEach(imgUrl => {
-                    const slide = document.createElement("div");
-                    slide.className = "swiper-slide";
-                    slide.innerHTML = `<img src="${imgUrl}" alt="Foto Rumah" loading="lazy" referrerpolicy="no-referrer">`;
-                    wrapper.appendChild(slide);
-                });
-            } else {
-                document.getElementById("slider-wrapper").innerHTML = `<div class="swiper-slide py-16 text-red-500 text-center">Gagal memuat foto: ${result.message || 'Folder kosong'}</div>`;
+                    result.data.forEach(imgUrl => {
+                        const slide = document.createElement("div");
+                        slide.className = "swiper-slide";
+                        slide.innerHTML = `<img src="${imgUrl}" alt="Foto Rumah" loading="lazy" referrerpolicy="no-referrer">`;
+                        wrapper.appendChild(slide);
+                    });
+                } else {
+                    document.getElementById("slider-wrapper").innerHTML = `<div class="swiper-slide py-16 text-red-500 text-center">Gagal memuat foto: ${result.message || 'Folder kosong'}</div>`;
+                }
+            } catch (error) {
+                console.error("Gagal memuat foto:", error);
+                document.getElementById("slider-wrapper").innerHTML = `<div class="swiper-slide py-16 text-red-500 text-center">Terjadi kesalahan koneksi Google Drive.</div>`;
             }
-        } catch (error) {
-            console.error("Gagal memuat foto dari GDrive:", error);
-            document.getElementById("slider-wrapper").innerHTML = `<div class="swiper-slide py-16 text-red-500 text-center">Terjadi kesalahan koneksi. Pastikan akses Apps Script diset ke 'Anyone'.</div>`;
         }
-    }
 
-    loadGDrivePhotos();
-</script>
+        loadGDrivePhotos();
+    </script>
 </body>
 </html>
