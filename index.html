@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disewakan: Rumah Hilltop Residence Sentul City</title>
+    <!-- Ikon Tab Browser (Favicon Emoji Rumah) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Swiper CSS -->
@@ -122,7 +124,7 @@
         <p class="text-center text-sm text-gray-500 mt-4">*Geser untuk melihat foto lainnya</p>
     </section>
 
-    <!-- Peta Lokasi (Google Maps Embed) -->
+    <!-- Peta Lokasi (Google Maps Embed Resmi) -->
     <section class="max-w-5xl mx-auto px-4 py-12 border-t border-gray-200">
         <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Lokasi Properti</h2>
         <div class="w-full h-96 rounded-2xl overflow-hidden shadow-sm border border-gray-200">
@@ -132,7 +134,8 @@
                 style="border:0" 
                 loading="lazy" 
                 allowfullscreen 
-                src="https://maps.google.com/maps?q=-6.5737732,106.8551076&hl=id&z=17&output=embed">
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.342938171097!2d106.85251897592476!3d-6.573773193419572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c6e53c3397b7%3A0x8c62cd1c96c4bb5c!2sJl.%20Alpen%20Elbrus%2C%20Citaringgul%2C%20Kec.%20Babakan%20Madang%2C%20Kabupaten%20Bogor%2C%20Jawa%20Barat%2016810!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid">
             </iframe>
         </div>
         <div class="text-center mt-4">
@@ -178,10 +181,15 @@
                     result.data.forEach(item => {
                         const slide = document.createElement("div");
                         slide.className = "swiper-slide relative overflow-hidden rounded-xl";
+                        
+                        // Menangani jika data berupa objek (dengan nama) atau string URL biasa
+                        const imgUrl = item.url || item;
+                        const imgName = item.name || "Foto Rumah";
+
                         slide.innerHTML = `
-                            <img src="${item.url}" alt="${item.name}" loading="lazy" referrerpolicy="no-referrer">
+                            <img src="${imgUrl}" alt="${imgName}" loading="lazy" referrerpolicy="no-referrer">
                             <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-white text-center rounded-b-xl">
-                                <p class="font-medium text-base md:text-lg">${item.name}</p>
+                                <p class="font-medium text-base md:text-lg">${imgName}</p>
                             </div>
                         `;
                         wrapper.appendChild(slide);
